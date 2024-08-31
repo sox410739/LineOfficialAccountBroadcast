@@ -117,6 +117,17 @@ html {
   width: calc((40 / 14) * 1rem);
 }
 
+/* Message */
+
+.el-message {
+  padding: calc((11 / 14) * 1rem) calc((15 / 14) * 1rem);
+  --el-message-close-size: calc((16 / 14) * 1rem);
+}
+
+.el-message__content {
+  font-size: var(--el-font-size-base);
+}
+
 /* Dialog */
 
 .el-overlay-dialog {

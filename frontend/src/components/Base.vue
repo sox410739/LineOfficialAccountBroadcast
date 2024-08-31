@@ -71,12 +71,27 @@ const submitGo = async () => {
   try {
     const response = await submit();
     if (response.data.status === "success") {
-      ElMessage.success(Messages.submitSuccessMessage);
+      ElMessage({
+        showClose: true,
+        message: Messages.submitSuccessMessage,
+        type: "success",
+        duration: 30000,
+      });
     } else {
-      ElMessage.error(response.data.message);
+      ElMessage({
+        showClose: true,
+        message: response.data.message,
+        type: "error",
+        duration: 0,
+      });
     }
   } catch (error) {
-    ElMessage.error(error.message);
+    ElMessage({
+      showClose: true,
+      message: error.message,
+      type: "error",
+      duration: 0,
+    });
   }
 };
 
