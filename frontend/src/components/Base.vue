@@ -16,6 +16,7 @@ const messageType = ref(MessageType.TEXT);
 const message = ref("");
 
 const previousMessageType = ref(MessageType.TEXT);
+const isSubmitting = ref(false);
 
 // Previous
 const previousVisibility = computed(() => {
@@ -38,7 +39,7 @@ const nextIcon = computed(() => {
 });
 
 const canNext = computed(() => {
-  return validate();
+  return !isSubmitting.value && validate();
 });
 
 const next = () => {
@@ -58,8 +59,10 @@ const next = () => {
       confirmButtonText: Messages.submitComfirmComfirm,
       cancelButtonText: Messages.submitComfirmCancel,
       distinguishCancelAndClose: true,
-    }).then(() => {
-      submitGo();
+    }).then(async () => {
+      isSubmitting.value = true;
+      await submitGo();
+      isSubmitting.value = false;
     });
   }
 };
