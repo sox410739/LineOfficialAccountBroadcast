@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Hello World
+    <input type="file" name="file" id="file">
+    <!-- upload to /api/crawler/file -->
+    <button id="upload">Upload</button>
+    <script>
+        document.getElementById('upload').addEventListener('click', async () => {
+            const file = document.getElementById('file').files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('url', 'https://chat.line.biz/Uff51e360c3d717f198e4c4b2bf928d01/chat/U456baad587120af72e99244af7a0f112');
+            const response = await fetch('/api/crawler/file', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+        });
+    </script>
+</body>
+</html>
