@@ -47,6 +47,8 @@ const Messages = {
   submitComfirmTitle: "確定要發送嗎？",
   submitComfirmComfirm: "確定",
   submitComfirmCancel: "取消",
+
+  submitSuccessMessage: "訊息已成功發送！",
 };
 
 export default Messages;

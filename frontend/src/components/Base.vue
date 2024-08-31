@@ -71,7 +71,7 @@ const submitGo = async () => {
   try {
     const response = await submit();
     if (response.data.status === "success") {
-      ElMessage.success(Messages.submitSuccess);
+      ElMessage.success(Messages.submitSuccessMessage);
     } else {
       ElMessage.error(response.data.message);
     }
