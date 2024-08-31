@@ -101,6 +101,10 @@ html {
   font-size: var(--el-font-size-extra-small);
 }
 
+.el-upload-list__item {
+  font-size: var(--el-font-size-base);
+}
+
 /* MessageBox */
 
 .el-message-box {
