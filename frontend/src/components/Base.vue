@@ -122,7 +122,7 @@ const validateMessageType = () => {
 };
 
 const validateMessage = () => {
-  return message.value.length > 0;
+  return message.value !== "";
 };
 </script>
 
