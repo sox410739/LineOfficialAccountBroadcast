@@ -131,8 +131,10 @@ const validate = () => {
 };
 
 const validateLink = () => {
-  const regex = /^https:\/\/chat.line.biz\/U[a-f0-9]{32}\/chat\/U[a-f0-9]{32}$/;
-  return regex.test(link.value);
+  const regex1 = /^https:\/\/chat\.line\.biz\/U[A-Za-z0-9]{32}\/?$/;
+  const regex2 = /^https:\/\/chat\.line\.biz\/U[A-Za-z0-9]{32}\/chat\/U[A-Za-z0-9]{32}\/?$/;
+
+  return regex1.test(link.value) || regex2.test(link.value);
 };
 
 const validateMessageType = () => {
