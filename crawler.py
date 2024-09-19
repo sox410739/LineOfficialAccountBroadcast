@@ -44,6 +44,19 @@ def get_all_user(driver: webdriver.Chrome):
     except Exception as e:
         print('[Get all user failed]\n')
         raise e
+    
+def ensure_message_sent(driver: webdriver.Chrome, message: str):
+    message_element = None
+    while(True):
+        date_group = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.position-relative.date-group')))
+        messages = WebDriverWait(date_group[-1], SELENUIM_WAIT_TIME).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.chat.chat-text-dark.chat-reverse.chat-primary')))
+        message_element = messages[-1]
+        chat_text = WebDriverWait(message_element, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.chat-item-text.user-select-text')))
+        if chat_text.get_attribute('textContent') == message:
+            break
+    
+    WebDriverWait(message_element, SELENUIM_WAIT_TIME).until(EC.invisibility_of_element((By.CSS_SELECTOR, '.chat-sub > .dropdown > .fas.fa-sync.text-info')))
+
         
 def send_message(driver: webdriver.Chrome, users: list, message: str):
     users_container_xpath = '/html/body/div[2]/div/div[1]/div[1]/main/div/div[1]/div/div[2]/div[2]/div'
@@ -64,8 +77,9 @@ def send_message(driver: webdriver.Chrome, users: list, message: str):
                     textarea.send_keys(message)
                     send_button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.XPATH, send_button_xpath)))
                     send_button.click()
+                    ensure_message_sent(driver, message)
                     break
-
+            
             # raise Exception(f'User {user} not found')    
         
     except Exception as e:
