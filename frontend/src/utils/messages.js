@@ -9,17 +9,24 @@ const Messages = {
   step1InputPlaceholder: "Please Input",
   step1HowToTitle: "如何取得官方帳號管理網址？",
   step1HowToHtml: `
-  <ol>
-    <li>進入<a href="https://manager.line.biz/">官方帳號管理頁面</a>，並登入你的 LINE 帳號</li>
-      <img src="/img/fetchURL-step1.png" alt="step1" width="400px">
-    <li>點選你要群發訊息的官方帳號</li>
-      <img src="/img/fetchURL-step2.png" alt="step2" height="300px">
-    <li>點選左上角的「聊天」選項</li>
-      <img src="/img/fetchURL-step3.png" alt="step3" width="400px">
-    <li>複製網址列的網址</li>
-      <img src="/img/fetchURL-step4.png" alt="step4" height="300px">
-  </ol>
-
+    <div>
+      <p style="position: sticky; top: 0; background-color:white">
+        1. 進入<a href="https://manager.line.biz/" target="_blank">官方帳號管理頁面</a>，並登入你的 LINE 帳號
+      </p>
+      <img src="/img/fetchURL-step1.png" alt="step1" style="max-width:95%;">
+    </div>
+    <div>
+      <p style="position: sticky; top: 0; background-color:white">2. 點選你要群發訊息的官方帳號</p>
+      <img src="/img/fetchURL-step2.png" alt="step2" style="max-width:95%;">
+    </div>
+    <div>
+      <p style="position: sticky; top: 0; background-color:white">3. 點選左上角的「聊天」選項</p>
+      <img src="/img/fetchURL-step3.png" alt="step3" style="max-width:95%;">
+    </div>
+    <div>
+      <p style="position: sticky; top: 0; background-color:white">4. 複製網址列的網址</p>
+      <img src="/img/fetchURL-step4.png" alt="step4" style="max-width:95%;">
+    </div>
   `,
 
   step2Title: "選擇訊息類型",
