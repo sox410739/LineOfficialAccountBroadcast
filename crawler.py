@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 import time
 
 SELENUIM_WAIT_TIME = 10
@@ -46,13 +47,14 @@ def get_all_user(driver: webdriver.Chrome):
         raise e
     
 def ensure_message_sent(driver: webdriver.Chrome, message: str):
+    validate_message = message.replace('\n', '')
     message_element = None
     while(True):
         date_group = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.position-relative.date-group')))
         messages = WebDriverWait(date_group[-1], SELENUIM_WAIT_TIME).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.chat.chat-text-dark.chat-reverse.chat-primary')))
         message_element = messages[-1]
         chat_text = WebDriverWait(message_element, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.chat-item-text.user-select-text')))
-        if chat_text.get_attribute('textContent') == message:
+        if chat_text.get_attribute('textContent') == validate_message:
             break
     
     WebDriverWait(message_element, SELENUIM_WAIT_TIME).until(EC.invisibility_of_element((By.CSS_SELECTOR, '.chat-sub > .dropdown > .fas.fa-sync.text-info')))
@@ -68,6 +70,14 @@ def switch_to_auto_reply(driver: webdriver.Chrome):
     if button.get_attribute('textContent') == '結束手動聊天':
         button.click()
     button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.text_to_be_present_in_element((By.ID, '__test__switchChatModeButton'), '使用手動聊天'))
+
+def send_key_in_textarea(textarea: webdriver.Chrome, message: str):
+    # replace new line with shift + enter
+    messages = message.split('\n')
+    for i, message in enumerate(messages):
+        textarea.send_keys(message)
+        if i != len(messages) - 1:
+            textarea.send_keys(Keys.SHIFT + Keys.ENTER)
 
 def send_message(driver: webdriver.Chrome, users: list, message: str):
     users_container_xpath = '/html/body/div[2]/div/div[1]/div[1]/main/div/div[1]/div/div[2]/div[2]/div'
@@ -86,7 +96,7 @@ def send_message(driver: webdriver.Chrome, users: list, message: str):
                     switch_to_manual_reply(driver)
                     # send message
                     textarea = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.XPATH, textarea_xpath)))
-                    textarea.send_keys(message)
+                    send_key_in_textarea(textarea, message)
                     send_button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.XPATH, send_button_xpath)))
                     send_button.click()
                     ensure_message_sent(driver, message)
