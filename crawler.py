@@ -57,7 +57,18 @@ def ensure_message_sent(driver: webdriver.Chrome, message: str):
     
     WebDriverWait(message_element, SELENUIM_WAIT_TIME).until(EC.invisibility_of_element((By.CSS_SELECTOR, '.chat-sub > .dropdown > .fas.fa-sync.text-info')))
 
-        
+def switch_to_manual_reply(driver: webdriver.Chrome):
+    button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.ID, '__test__switchChatModeButton')))
+    if button.get_attribute('textContent') == '使用手動聊天':
+        button.click()
+    button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.text_to_be_present_in_element((By.ID, '__test__switchChatModeButton'), '結束手動聊天'))
+    
+def switch_to_auto_reply(driver: webdriver.Chrome):
+    button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.ID, '__test__switchChatModeButton')))
+    if button.get_attribute('textContent') == '結束手動聊天':
+        button.click()
+    button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.text_to_be_present_in_element((By.ID, '__test__switchChatModeButton'), '使用手動聊天'))
+
 def send_message(driver: webdriver.Chrome, users: list, message: str):
     users_container_xpath = '/html/body/div[2]/div/div[1]/div[1]/main/div/div[1]/div/div[2]/div[2]/div'
     users_elements_css = 'h6[data-v-a7f2b37c]'
@@ -72,12 +83,14 @@ def send_message(driver: webdriver.Chrome, users: list, message: str):
                 if user_element.text == user:
                     print(f'User {user} found')
                     user_element.click()
+                    switch_to_manual_reply(driver)
                     # send message
                     textarea = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.XPATH, textarea_xpath)))
                     textarea.send_keys(message)
                     send_button = WebDriverWait(driver, SELENUIM_WAIT_TIME).until(EC.presence_of_element_located((By.XPATH, send_button_xpath)))
                     send_button.click()
                     ensure_message_sent(driver, message)
+                    switch_to_auto_reply(driver)
                     break
             
             # raise Exception(f'User {user} not found')    
